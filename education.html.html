@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>උසස් පෙළ අධ්‍යාපන සම්පත්</title>
+    
+    <style>
+        /* CSS ශෛලීන් ආරම්භය - Modern Flat Design + Cover Photo */
+        :root {
+            --color-primary: #1e88e5; /* දීප්තිමත් නිල් */
+            --color-secondary: #42a5f5; /* ලා නිල් */
+            --color-text-dark: #37474f; /* තද අළු */
+            --color-text-light: #fff;
+            --color-border: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--color-text-dark);
+            background-color: #ffffff; /* සම්පූර්ණ සුදු පසුබිම */
+        }
+
+        /* Header ශෛලීන් */
+        .header {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 5px;
+        }
+
+        /* Cover Photo Section */
+        .cover-photo-section {
+            width: 100%;
+            height: 300px; /* රූපයේ උස */
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cover-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* රූපය සම්පූර්ණයෙන් පෙනීමට */
+            filter: brightness(0.7); /* රූපය මදක් අඳුරු කිරීමට */
+            transition: filter 0.3s ease-in-out;
+        }
+        
+        .cover-photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-text-light);
+            text-align: center;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0.1));
+        }
+
+        .cover-photo-overlay h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .cover-photo-overlay p {
+            font-size: 1.2em;
+            max-width: 70%;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        /* ප්‍රධාන අන්තර්ගත කන්ටේනරය */
+        .content-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+        
+        .page-description {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #78909c;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        /* Accordion Style - Details/Summary භාවිතය */
+        .stream-details {
+            margin-bottom: 15px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s;
+        }
+
+        .stream-details:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Summary (Accordion Header) Style */
+        .stream-details summary {
+            padding: 18px 20px;
+            background-color: var(--color-secondary);
+            color: var(--color-text-light);
+            font-size: 1.25em;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            list-style: none; /* Default marker hide */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        /* Arrow/Icon for Summary */
+        .stream-details summary::after {
+            content: '▼';
+            font-size: 0.8em;
+            margin-left: 10px;
+            transition: transform 0.3s;
+        }
+        
+        .stream-details[open] summary::after {
+            content: '▲';
+        }
+        
+        /* Resource List inside Accordion */
+        .resource-group {
+            padding: 15px 20px;
+            background-color: #fafafa;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .resource-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .resource-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .resource-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .resource-list a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--color-text-dark);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .resource-list a:hover {
+            color: var(--color-primary);
+        }
+        
+        .download-btn {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        /* Footer ශෛලීන් */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            background-color: #eceff1;
+            color: #78909c;
+            font-size: 0.85em;
+            border-top: 2px solid var(--color-border);
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .cover-photo-section {
+                height: 200px;
+            }
+            .cover-photo-overlay h2 {
+                font-size: 1.8em;
+            }
+            .cover-photo-overlay p {
+                font-size: 1em;
+                max-width: 85%;
+            }
+            .stream-details summary {
+                font-size: 1.1em;
+                padding: 15px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>📚 උසස් පෙළ අධ්‍යාපන සම්පත්</h1>
+        <p>ආපදා තත්ත්වය හමුවේ අධ්‍යාපනයට අඛණ්ඩ සහය.</p>
+    </header>
+
+    <section class="cover-photo-section">
+        
+        <img class="cover-photo" src="Beautiful Sri Lankan landscape at sunrise, symbolizing hope and resilience..png" alt="Beautiful Sri Lankan landscape at sunrise, symbolizing hope and resilience."/>
+        
+        <div class="cover-photo-overlay">
+            <h2>අපට පුළුවන්! අපේ දරුවන්ට අනාගතය දිනන්නට</h2>
+            <p>අභියෝග හමුවේ නොසැලී, අධ්‍යාපනයෙන් ශක්තිමත් හෙට දවසක් ගොඩනගමු.</p>
+        </div>
+    </section>
+
+    <main class="content-container">
+        
+        <p class="page-description">ඔබට අවශ්‍ය විෂය ධාරාව මත ක්ලික් කර අදාළ සටහන් සහ සම්පත් බාගත කරන්න.</p>
+        
+        <details class="stream-details" open>
+            <summary>🧬 විද්‍යා/ගණිත විෂය ධාරාව (Science/Maths)</summary>
+            <div class="resource-group">
+                <ul class="resource-list">
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1Cm3wD7ziKPmNo5SxNQU1ZFeyP7eMbIWC?usp=drive_link" target="_blank">
+                            <span>සංයුක්ත ගණිතය (Combined Maths) - සටහන්</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1Zmy_K5NFCx5DU2F3AkG551xxLwinxXz2?usp=drive_link" target="_blank">
+                            <span>රසායන විද්‍යාව (Chemistry) - Past Papers</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1zh1lvoQr1XMZpfa6BGJ7-bSso3ZEZvpy?usp=drive_link" target="_blank">
+                            <span>භෞතික විද්‍යාව (Physics) - සම්පත්</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1zxE8FG7l0-n62Le0eU6tmfNoR0PCfDks?usp=drive_link" target="_blank">
+                            <span>ජීව විද්‍යාව (Biology) - සටහන්</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="stream-details">
+            <summary>📊 වාණිජ විෂය ධාරාව (Commerce)</summary>
+            <div class="resource-group">
+                <ul class="resource-list">
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1-O1FT1xIzwFL2ZCMis49wVyFKQC3-oP6?usp=drive_link" target="_blank">
+                            <span>ගිණුම්කරණය (Accounting) - සටහන්</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/11F_mLPWZrKf1rvS8OviRBW3BAWW3adSB?usp=drive_link" target="_blank">
+                            <span>ව්‍යාපාර අධ්‍යයනය (Business Studies)</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1HbwfySGFb9i21HkpEmAxBhigXt60zcUV?usp=drive_link" target="_blank">
+                            <span>ආර්ථික විද්‍යාව (Economics) - සම්පත්</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1OhuHL_aZGL6H19sDHl4gVC7Kmqelud_O?usp=drive_link" target="_blank">
+                            <span>සංඛ්‍යායන (Statistics)</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="stream-details">
+            <summary>⚙️ තාක්ෂණ විෂය ධාරාව (Technology)</summary>
+            <div class="resource-group">
+                <ul class="resource-list">
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1_rmapxLUZ9ENnD8jni8zKkmiRB2ukxoK?usp=drive_link" target="_blank">
+                            <span>තොරතුරු තාක්ෂණය (ICT) - සම්පත්</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1amE5IYRi_jE0BgGzDkTezYZuBd7ZACpV?usp=drive_link" target="_blank">
+                            <span>ඉංජිනේරු තාක්ෂණවේදය (ET)</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1yoGexkM9eQslFzUDb5EddorZw-SqlC-w?usp=drive_link" target="_blank">
+                            <span>ජෛව පද්ධති තාක්ෂණවේදය (BST)</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1seCLKh2WOuMj6ITjjIx31xo7EHbUii_9?usp=drive_link" target="_blank">
+                            <span>තාක්ෂණවේදය සඳහා විද්‍යාව (SFT)</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="stream-details">
+            <summary>🎨 කලා විෂය ධාරාව සහ භාෂා (Arts & Languages)</summary>
+            <div class="resource-group">
+                <ul class="resource-list">
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1ikjSX6pid7x0D1MivCgPz1HZmDHRurMp?usp=drive_link" target="_blank">
+                            <span>සිංහල සහ බුද්ධ ධර්මය</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1FSNAdMb6kU7pk4vPGkG1lzsYyJFW5jaK?usp=drive_link" target="_blank">
+                            <span>භූගෝල විද්‍යාව (Geography)</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1CgGxebdb5AO2BghT2Rz37gphruaus0X4?usp=drive_link" target="_blank">
+                            <span>ජපන් භාෂාව (Japanese)</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://drive.google.com/drive/folders/1O5-pm2Um9R9P7-hwS6Ub6IugT6cIOvoT?usp=drive_link" target="_blank">
+                            <span>ඉංග්‍රීසි භාෂාව (English)</span>
+                            <span class="download-btn">බාගත කරන්න ⬇️</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+        
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 ගංවතුර සහන සේවය. මෙම සටහන් **Charuni Senadheera සහ KDJ ඇතුළු සියලුම සටහන් හිමිකරුවන්ගේ** අවසරය මත පමණක් භාවිත කරන්න. සියලුම සම්පත් හිමිකරුවන්ට ස්තුතියි.</p>
+    </footer>
+
+</body>
+</html>
